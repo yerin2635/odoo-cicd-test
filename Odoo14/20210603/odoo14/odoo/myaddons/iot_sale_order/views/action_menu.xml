@@ -1,0 +1,28 @@
+<odoo>
+    <record id="iots_erp_sale_order_action" model="ir.actions.act_window">
+        <field name="name">銷貨清單</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">iot.sale.order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem
+        id="iots_erp_sale_order_view"
+        name="銷貨清單"
+        action="iots_erp_sale_order_action"
+    />
+
+    <record id="iots_erp_payment_method_action" model="ir.actions.act_window">
+        <field name="name">付款條件</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">payment.method.mapping</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="iots_erp_payment_method_view"
+            name="付款條件"
+            parent="iots_erp_sale_order_view"
+            action="iots_erp_payment_method_action"
+            sequence="2"/>
+
+</odoo>

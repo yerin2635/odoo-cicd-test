@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="basic_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div id="table" align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" width="1000" style='border-collapse:separate;table-layout:fixed;width:960pt'>
+                        <tr>
+                            <h2 align='right'>
+                                    <u>工令號 :<span t-field="o.work_order_number" /></u>
+                            </h2>
+                        </tr>
+                        <tr>
+                            <h2 align='right'>盟立台北分公司/南亞科RHEL</h2>
+                        </tr>
+                        <tr>
+                            <h2>物聯網股份有限公司  底價分析表</h2>
+                        </tr>
+                        <tr>
+                            <td colspan="17">
+                                <p style="font-size: 20px !important;"> 材料費明細 </p>
+                            </td>
+                            <td align='center'>
+                                <p style="font-size: 20px !important;">Date:</p>
+                            </td>
+                            <td colspan="5" align='center'>
+                                <p style="font-size: 20px !important;">
+                                    <span t-field="o.signing_date" t-options='{"format": "yyyy/MM/dd"}' />
+                                </p>
+                            </td>
+                        </tr>
+                        <tr height="44"></tr>
+                    </table>
+
+                    <table border="1" cellpadding="0" cellspacing="0" width="1280" style='border-collapse:separate;table-layout:fixed;width:960pt;border:5px double;'>
+                        <tr height="44" style='border-left :3px solid;'>
+                            <td colspan="2" height="44" align="center" valign="center">項次</td>
+                            <td colspan="15" align="center" valign="center">
+                                <span style='mso-spacerun:yes'> 料 號 </span>
+                            </td>
+                            <td colspan="2" align="center" valign="center">數量</td>
+                            <td colspan="2" width="128" style='width:96pt' align="center" valign="center">成本(單)</td>
+                            <td colspan="2" width="128" style='width:96pt' align="center" valign="center">成本(複)</td>
+                        </tr>
+
+                        <tbody class="purchase_tbody">
+                            <t t-set="purchase_count" t-value="1" />
+                            <t t-set="current_subtotal" t-value="0" />
+                            <t t-foreach="o.purchase_order_line_rel" t-as="line">
+                                <t t-foreacg="o.sale_order_rel.account_move" t-as="account">
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded" />
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included" />
+                                    <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                        <t t-if="not line.display_type">
+
+                                            <td colspan="2" height="44" align="center" valign="center">
+                                                <t t-esc="purchase_count" />
+                                            </td>
+                                            <td colspan="15" width="448" style='width:336pt'>
+                                                <span style='mso-spacerun:yes'>
+                                                    <span t-field="line.purchase_product_name_modify" />
+                                                    <span t-field="line.description_modify" />
+                                                    (<span t-field="line.partner_id" />)
+                                                </span>
+                                            </td>
+                                            <td colspan="2" style='width:48pt' align="center" valign="center">
+                                                <span t-field="line.product_qty_modify" />
+                                            </td>
+                                            <td colspan="2" width="128" style='width:96pt' align="center" valign="center">
+                                                <span t-field="line.price_unit_modify" />
+                                            </td>
+                                            <td colspan="2" width="128" style='width:96pt' align="center" valign="center">
+                                                <span t-field="line.price_subtotal_modify" t-options='{"widget": "int"}' />
+                                            </td>
+
+
+                                        </t>
+                                    </tr>
+                                </t>
+                                <t t-set="purchase_count" t-value="purchase_count + 1" />
+                            </t>
+                            <tr height="44">
+                                <td colspan="2"></td>
+                                <td colspan="15"> 合計 </td>
+                                <td colspan="2"></td>
+                                <td colspan="2"></td>
+                                <td colspan="2" align='center'>
+                                    <b>
+                                        <t t-esc="current_subtotal" />
+                                    </b>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 計算合約金額-->
+                    <t t-set="invoice_twd_total" t-value="0" />
+                    <t t-foreach="o" t-as="o">
+                        <t t-foreach="o.sales_invoice_rel" t-as="invoice">
+                            <t t-if="o in invoice.invoice_iot_rel">
+                                <t t-set="invoice_twd_total" t-value="invoice_twd_total+invoice.sale_item_single_price_twd" />
+                            </t>
+                        </t>
+                    </t>
+                    <!-- 計算GP-->
+                    <t t-set="GP_calculate" t-value="0"/>
+                    <t t-set="GP_calculate" t-value="((invoice_twd_total-current_subtotal)/invoice_twd_total)*100" />
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="1280" style='border-collapse:separate;table-layout:fixed;width:960pt'>
+                        <tr height="44"></tr>
+                        <tr height="44">
+                            <td colspan="2"></td>
+                            <td colspan="6">
+                                <p style="font-size: 20px !important;"> 本案合約金額 </p>
+                            </td>
+                            <td colspan="5">
+                                <p style="font-size: 20px !important;"><t t-esc="invoice_twd_total" /></p>
+                            </td>
+                            <td colspan="9" align='right'></td>
+                        </tr>
+
+                        <tr height="44">
+                            <td colspan="2"></td>
+                            <td colspan="6">
+                                <p style="font-size: 20px !important;">
+                                    <b>  預估毛利率  </b>
+                                </p>
+                            </td>
+                            <td colspan="3"><p style="font-size: 20px !important;"><t t-esc="GP_calculate" t-options='{"widget": "float", "precision": 2}' />%</p></td>
+                            <td colspan="11">
+                                <p style="font-size: 20px !important;"> 本毛利率未計算人工及管銷成本  </p>
+                            </td>
+                        </tr>
+                        <tr height="30">
+                            <td colspan="2"></td>
+                            <td colspan="6" style="border-top:3px solid;border-left :3px solid;border-right :3px solid;"></td>
+                            <td colspan="14"></td>
+                        </tr>
+
+                        <tr height="44">
+                            <td colspan="2"></td>
+                            <td colspan="6" style="border-left :3px solid;border-right :3px solid;">
+                                <p style="font-size: 20px !important;">  主管簽核  </p>
+                            </td>
+                            <td colspan="14"></td>
+                        </tr>
+                        <tr height="30">
+                            <td colspan="2"></td>
+                            <td colspan="6" style="border-left :3px solid;border-right :3px solid;"></td>
+                            <td colspan="14"></td>
+                        </tr>
+                        <tr height="30">
+                            <td colspan="2"></td>
+                            <td colspan="6" style="border-left :3px solid;border-right :3px solid;"></td>
+                            <td colspan="14"></td>
+                        </tr>
+                        <tr height="44">
+                            <td colspan="2"></td>
+                            <td colspan="6" style="border-bottom:3px solid;border-left :3px solid;border-right :3px solid;">
+                                <p style="font-size: 20px !important;">
+                                    <b>  總經理________________  </b>
+                                </p>
+                            </td>
+                            <td colspan="14"></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <report id="iot_Basic" model="iot.sale.order" string="iots底價分析表" report_type="qweb-pdf" name="iot_sale_order.basic_report" file="iot_sale_order.basic_report" print_report_name="'底價分析表 %s' % (object.name)" />
+
+</odoo>

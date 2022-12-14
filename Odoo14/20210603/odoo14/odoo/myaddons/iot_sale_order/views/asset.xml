@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="assets_backend" name="iot_sale_order_javascript" inherit_id="web.assets_backend">
+        <xpath expr="//script[last()]" position="after">
+            <!-- 新增 css 與 javascript 樣板給 sale addon 的 view_order_form view -->
+            <link rel="stylesheet" type="text/css" href="/iot_sale_order/static/src/css/iot_sale_order_view.css"/>
+            <!-- <script type="text/javascript" src="/iot_sale_order/static/src/js/iot.js"></script> -->
+            <!-- 新增 css 樣板給 sale addon 的 view_order_form view -->
+            <link rel="stylesheet" type="text/css" href="/iot_sale_order/static/src/css/sale_view.css/"/>
+        </xpath>                    
+    </template>
+</odoo>

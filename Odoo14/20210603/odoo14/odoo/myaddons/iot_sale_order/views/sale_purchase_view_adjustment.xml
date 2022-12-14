@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- 調整 sale 頁面
+    1. 下方新增欄位只剩下「新增產品資料」選項
+    2. 下方顯示  稅金(5%) -->
+    <record id="sale_order_view_inherit" model="ir.ui.view">
+        <field name="name">sale_order_view_inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="priority" eval="8" />
+        <field name="arch" type="xml">
+            <xpath expr="//form//sheet//notebook//page//field//tree//control//create[@name='add_product_control']"  position="attributes">
+                <attribute name="string">新增產品資料</attribute>
+            </xpath>
+            <!-- <xpath expr="//form//sheet//notebook//page//field//tree//control//create[@name='add_section_control']"  position="attributes">
+                <attribute name="string">商品分類註記</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//notebook//page//field//tree//control//create[@name='add_note_control']"  position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath> -->
+            <!-- 顯示稅金(5%) line 652 -->
+            <!-- 非台幣時不顯示稅金 -->
+            <xpath expr="//group[@name='note_group']//group[@name='sale_total']//field[@name='amount_tax']" position="attributes">
+                <attribute name="string">稅金(5%)</attribute>
+                <attribute name="attrs">{'invisible': [('show_tax_percent', '=', ' 0%')]}</attribute>
+            </xpath>
+
+            <!-- 調整「總計」為「含稅總計」 line 656 -->
+            <xpath expr="//group[@name='note_group']//group[@name='sale_total']//div//label" position="attributes">
+                <attribute name="string">含稅總計</attribute>
+            </xpath>
+        </field>
+    </record>
+    <!-- 調整 purchase 頁面下方新增欄位只剩下「新增產品資料」選項 -->
+    <record id="purchase_order_view_inherit" model="ir.ui.view">
+        <field name="name">purchase_order_view_inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="priority" eval="8" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//notebook//page//field//tree//control//create[@name='add_product_control']"  position="attributes">
+                <attribute name="string">新增產品資料</attribute>
+            </xpath>
+            <xpath expr="//sheet//notebook//page//field//tree//control//create[@name='add_section_control']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet//notebook//page//field//tree//control//create[@name='add_note_control']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

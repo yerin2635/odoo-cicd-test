@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="saleperson_number_form" model="ir.ui.view">
+        <field name="name">saleperson_number_form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="priority" eval="8" />
+        <field name="arch" type="xml">
+            <xpath expr="//form//sheet//div[@class='oe_title']//h2"  position="after">
+                <label for="salesperson_number" class="oe_edit_only" string="業務代碼"/>
+                <h2><field name="salesperson_number"/></h2>
+            </xpath>
+            <xpath expr="//form//sheet//div[@class='oe_title']//h2"  position="after">
+                <label for="employee_serial_number" class="oe_edit_only" string="員工編號"/>
+                <h2><field name="employee_serial_number"/></h2>
+            </xpath>
+            <xpath expr="//form//sheet//div[@class='oe_title']//h2"  position="after">
+                <label for="employee_tel" class="oe_edit_only" string="電話分機"/>
+                <h2><field name="employee_tel"/></h2>
+            </xpath>
+        </field>
+    </record>
+</odoo>

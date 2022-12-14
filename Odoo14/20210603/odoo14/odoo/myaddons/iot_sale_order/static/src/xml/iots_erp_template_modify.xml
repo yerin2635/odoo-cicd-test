@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- path: mail/static/src/components/chatter_topbar/chatter_topbar.xml line:  -->
+<templates xml:space="preserve">
+    <t t-inherit="mail.ChatterTopbar" t-inherit-mode="extension">
+        <xpath expr="//div" position="replace">
+            <div></div>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record model="ir.module.category" id="module_category_iots_sales">
+            <field name="name">iots Sales</field>
+            <field name="description">About iots Sale</field>
+        </record>
+        
+        <record model="res.groups" id="group_salesmanager">
+            <field name="name">Sales Manager</field>
+            <field name="category_id" ref="module_category_iots_sales"/>
+        </record>
+
+        <record model="res.groups" id="group_sales">
+            <field name="name">IotSales</field>
+            <field name="category_id" ref="module_category_iots_sales"/>
+        </record>
+
+    </data>
+</odoo>

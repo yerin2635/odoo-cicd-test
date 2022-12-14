@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.list.form</field>
+        <field name="model">iot.sale.order</field>
+        <field name="arch" type="xml">
+            <form string="Sales Order List" class="o_sale_order" js_class="sale_discount_form" duplicate="false">            
+            <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" readonly="1"/>
+                    </h1>
+                </div>
+                <group name="sale_order_list_group">
+                    <group name="sale_order_list_date">
+                        <field name="customer_country"/>
+                        <field name="customer_name"/>
+                        <field name="customer_number"/>
+                        <field name="project_name"/>
+                        <field name="signing_date" widget="date"/>
+                        <field name="completion_day" widget="date"/>
+                    </group>
+                    <group name="sale_order_list_business">
+                        <field name="work_order_number"/>
+                        <field name="business_representative"/>
+                        <field name="business_representative_id"/>
+                        <field name="business_representative_phone"/>
+                    </group>
+                    <group name="sale_order_list_program_host">
+                        <field name="program_host"/>
+                        <field name="program_host_id"/>
+                        <field name="spot_foreign_exchange"/>
+                    </group>
+                    <group name="sale_order_list_program_total">
+                        <field name="iot_sale_order_total"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page name="sale_order" string="報價單">
+                        <field name="sale_order_rel" widget="many2many">
+                            <tree>
+                                <control>
+                                    <create name="add_purchase" string="匯入報價單"/>
+                                </control>
+                                <field name="name" string="報價編號" readonly="1"/>
+                                <field name="partner_id" string="廠商" readonly="1"/>
+                                <!-- <field name="invoice_date" string="發票日期"/>
+                                <field name="payment_method" string="付款條件"/>
+                                <field name="payment_times" string="付款時點"/>
+                                <field name="payment_days" string="付款天數"/>
+                                <field name="ticket_days" string="票期天數"/>
+                                <field name="payment_terms" string="付款方式"/>
+                                <field name="payment_method_name" string="付款說明"/> -->
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="sale_order_line" string="報價品項">
+                        <field name="sale_order_line_rel" widget="one2many" readonly="1">
+                            <tree>
+                                <field name="order_id" string="報價編號"/>
+                                <field name="sale_product_name" string="銷貨內容"/>
+                                <field name="product_uom_qty" string="數量"/>                                    
+                                <field name="price_unit" string="單價"/>
+                                <field name="price_subtotal" string="金額小計"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="invoice_notification" string="預定開立發票通知單">
+                        <field name="sales_invoice_rel" widget="section_and_note_one2many">
+                            <tree editable="bottom">
+                                <control>
+                                        <create name="add_invoice_notification" string="新增發票通知單資料"/>                                        
+                                </control>
+                                <field name="sequence" widget="handle" />
+                                <field name="invoice_date" widget="date"/>
+                                <field name="payment_method" options='{"always_reload": True, "no_create": True, "no_create_edit": True, "no_open": True}'/>
+                                <field name="payment_times" options='{"no_create": True, "no_create_edit": True, "no_open": True}'/>
+                                <field name="payment_days"/>
+                                <field name="ticket_days"/>
+                                <field name="payment_terms" options='{"no_create": True, "no_create_edit": True, "no_open": True}'/>
+                                <field name="payment_method_name"/>
+                                <field name="serial_number" string="項次"/>
+                                <field name="sale_serial_number" string="銷貨項次"/>
+                                <field name="po_number" string="使用備註"/>
+                                <field name="sale_item" string="銷貨內容"/>
+                                <field name="sale_item_amount" string="數量"/>
+                                <field name="sale_item_single_price" string="單價"/>
+                                <field name="sale_item_currency" string="幣別" options='{"no_create": True, "no_create_edit": True, "no_open": True}'/>
+                                <field name="sale_item_single_price_origin" string="原幣金額"/>
+                                <field name="sale_item_single_price_twd" string="台幣金額"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <field name="invoice_total"/>
+                        </group>
+                    </page>
+                    <page name="purchase_order" string="廠商報價單">
+                        <field name="purchase_order_rel" widget="many2many">
+                            <tree>
+                                <control>
+                                    <create name="add_purchase" string="匯入廠商報價單"/>
+                                </control>
+                                <field name="sequence" widget="handle" />
+                                <field name="name" string="編號"/>
+                                <field name="partner_id" string="廠商" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="purchase_order_line" string="廠商報價品項" >
+                        <field name="purchase_order_line_rel"
+                                widget="section_and_note_one2many"
+                                mode="tree,kanban">
+                            <tree
+                                string="Sales Order Lines"
+                                editable="bottom"
+                                create="0">
+                                <field name="default_code" string="料號" readonly="0"/>
+                                <field name="purchase_product_name_modify" string="型號" readonly="0"/>
+                                <field name="description_modify" string="品名" readonly="0"/>
+                                <field name="product_uom_modify" string="單位" readonly="0"/>
+                                <field name="product_qty_modify" string="數量" readonly="0"/>
+                                <field name="price_unit_modify" string="單價" readonly="0"/>
+                                <field name="price_subtotal_modify" string="金額" readonly="0"/>
+                                <field name="partner_id" string="待進口數量" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="sales_performance" string="業績">
+                        <field name="sales_performance_rel" widget="section_and_note_one2many">
+                            <tree editable="bottom">
+                                <control>
+                                    <create name="add_performance" string="新增業績資料"/>
+                                </control>
+                                <field name="user_id" string="業務代表" readonly="0" options='{"no_create": True, "no_create_edit": True}'/>
+                                <field name="sales_serial_number" string="員工編號" readonly="0"/>
+                                <field name="category" string="類別"/>
+                                <field name="currency_id" string="幣別" readonly="0" options='{"no_create": True, "no_create_edit": True}'/>
+                                <field name="currency_total" string="原幣成交金額"/>
+                                <field name="deal_total" string="成交金額(NTD)"/>
+                                <field name="equivalent_performance" string="等量業績(NTD)"/>
+                                <field name="pairs" string="套數"/>
+                                <field name="comment" string="註記"/>
+                                <field name="department" string="部門"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <field name="performance_total"/>
+                        </group>
+                    </page>
+                </notebook>
+                <notebook>
+                    <page name="note_page" string="備註資料">
+                        <field name="note"/>
+                    </page>
+                </notebook>
+                <notebook>
+                    <page name="attachment_page" string="附件檔案">
+                        <field name="iot_attachment_rel" widget="one2many">
+                            <tree editable="bottom">
+                                <control>
+                                    <create name="add_attachemnt_file" string="新增附件資料"/>
+                                </control>
+                                <!-- 附件順序可上下拉動 -->
+                                <field name="sequence" widget="handle" />
+                                <field name="documents" filename="document_name" attrs="{'invisible':[('document_name','!=',False)]}"/>
+                                <field name="document_name"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+            <!-- 新增 css 樣板、Javascript (沒有 bundle 至原生的位置) -->
+            <!-- <link rel="stylesheet" type="text/css" href="/iot_sale_order/static/src/css/iot_sale_order_view.css"/>
+            <script type="text/javascript" src="/iot_sale_order/static/src/js/iot.js"/> -->
+            </form>            
+        </field>
+    </record>
+</odoo>

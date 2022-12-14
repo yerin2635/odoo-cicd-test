@@ -1,0 +1,404 @@
+<odoo>
+    <!-- 修改頁面上方顯示按鈕 -->
+
+    <!-- path: sale/views/sale_views.xml line:16 -->
+    <menuitem id="sale.report_sales_team" 
+            name="Sales Teams"
+            parent="sale.sale_order_menu"
+            groups="sales_team.group_sale_manager"
+            action="sales_team.crm_team_salesteams_act"
+            sequence="3"
+            active="False"/>
+
+    <!-- path: sale/views/sale_views.xml line:28 -->
+    <menuitem id="sale.menu_sale_report"
+              name="Reporting"
+              parent="sale.sale_menu_root"
+              sequence="5"
+              groups="sales_team.group_sale_manager"
+              active="False"/>
+
+    <!-- path: sale/views/sale_views.xml line:40 -->
+    <menuitem id="sale.menu_sale_config"
+            name="Configuration"
+            parent="sale.sale_menu_root"
+            sequence="6"
+            groups="sales_team.group_sale_manager"
+            active="False"/>
+
+    <!-- path: sale/views/sale_views.xml line:892 -->
+    <menuitem id="sale.menu_sale_invoicing"
+              name="To Invoice"
+              parent="sale.sale_menu_root"
+              sequence="3" groups="sales_team.group_sale_salesman"
+              active="False"/>   
+
+    <!-- path: purchase/views/purchase_views.xml line:15 -->
+    <menuitem id="purchase.menu_purchase_config"
+        name="Configuration" 
+        parent="purchase.menu_purchase_root"
+        sequence="100" 
+        groups="purchase.group_purchase_manager"
+        active="False"/>
+
+    <!-- path: purchase/report/purchase_report_views.xml line:70 -->
+    <menuitem id="purchase.purchase_report" 
+        name="Reporting" 
+        parent="purchase.menu_purchase_root" 
+        sequence="99" 
+        groups="purchase.group_purchase_manager" 
+        action="purchase.action_purchase_order_report_all"
+        active="False"/>
+
+    <!-- path: mail/views/mail_channel_views.xml line:207 -->
+    <menuitem
+        id="mail.menu_root_discuss"
+        name="Discuss"
+        action="mail.action_discuss"
+        web_icon="mail,static/description/icon.png"
+        groups="base.group_user"
+        sequence="1"
+        active="False"/>
+
+     <!-- path: account/views/account_menuitem.xml line:4 -->
+    <menuitem name="Invoicing"
+        id="account.menu_finance"
+        groups="account.group_account_readonly,account.group_account_invoice"
+        web_icon="account,static/description/icon.png"
+        sequence="40"
+        active="False"/>
+
+
+
+    <!-- 修改sale 頁面 view_order_form -->
+    <record id="iots_sale_order_form" model="ir.ui.view">
+        <field name="name">iots.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- 增加 salesperson 欄位 -->
+            <xpath expr="//form//sheet//notebook//page[@name='other_information']//field[@name='user_id']" position="after">
+                <field name="salesperson_number" force_save='1'/>
+            </xpath>
+            <!-- 隱藏報價團隊欄位 -->
+            <xpath expr="//form//sheet//notebook//page[@name='other_information']//field[@name='team_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>          
+            <!-- 修改domain，報價員只出現業務 -->
+            <xpath expr="//form//sheet//notebook//page[@name='other_information']//field[@name='user_id']" position="replace">
+                <field name="user_id" required="1"  widget="many2one_avatar_user"/>
+            </xpath>
+            <!-- 增加交易條件頁簽 -->
+            <xpath expr="//form//sheet//notebook//page[@name='other_information']" position="before">
+                <page string="交易條件">
+                    <group>
+                        <field name="transaction_terms_description_1" string="1 報價" class="oe_edit_only" options="{'no_open': True}"/>
+                        <field name="transaction_terms_description_char_1" string="1 報價" class="oe_read_only"/>
+                        <field name="transaction_terms_description_2" string="2 付款條件" class="oe_edit_only" options="{'no_open': True}"/>
+                        <field name="transaction_terms_description_char_2" string="2 付款條件" class="oe_read_only"/>
+                        <field name="transaction_terms_description_3" string="3 本報價單有效期限" class="oe_edit_only" options="{'no_open': True}"/>
+                        <field name="transaction_terms_description_char_3" string="3 本報價單有效期限" class="oe_read_only"/>
+                        <field name="transaction_terms_description_4" string="4 報價單成立時機" class="oe_edit_only" options="{'no_open': True}"/>
+                        <field name="transaction_terms_description_char_4" string="4 報價單成立時機" class="oe_read_only"/>
+                        <field name="transaction_terms_description_5" string="5 安裝費用" class="oe_edit_only" options="{'no_open': True}"/>
+                        <field name="transaction_terms_description_char_5" string="5 安裝費用" class="oe_read_only"/>
+                        <field name="transaction_terms_description_6" string="6 保固" class="oe_edit_only" options="{'no_open': True}"/>
+                        <field name="transaction_terms_description_char_6" string="6 保固" class="oe_read_only"/>
+                        <field name="transaction_terms_description_7" string="7 其他" class="oe_edit_only" options="{'no_open': True}"/>
+                        <field name="transaction_terms_description_char_7" string="7 其他" class="oe_read_only"/>
+                        <field name="transaction_terms_description_8" string="8 注意事項" class="oe_edit_only" options="{'no_open': True}"/>
+                        <field name="transaction_terms_description_char_8" string="8 注意事項" class="oe_read_only"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- 隱藏Send by email按鈕 -->
+            <!-- path: sale/views/sale_views.xml line:264-292 -->
+            <xpath expr="//form//header//button[@name='action_quotation_send'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[@name='action_quotation_send'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[@name='action_quotation_send'][3]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[@name='action_quotation_send'][4]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//form//header//button[3]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[4]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+            <!-- 修改頁面顯示欄位 -->
+            <!-- path: sale/views/sale_views.xml line:320 -->
+            <xpath expr="//form//sheet//group[@name='sale_header']//group[@name='order_details']//field[@name='payment_term_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- 隱藏價格表 line335 -->
+            <xpath expr="//form//sheet//group[@name='sale_header']//group[@name='order_details']//label[@for='pricelist_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//group[@name='sale_header']//group[@name='order_details']//div[@class='o_row']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- 隱藏 sale 產品稅金%欄位 path: sale/views/sale_views.xml line:563 -->
+            <xpath expr="//form//sheet//notebook//page//field//tree//field[@name='tax_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            
+            <!-- 修改 選客戶方式 隱藏原生的，改成先選客戶再選聯絡人，並且帶出客戶地址、電話、email -->
+            <xpath expr="//form//sheet//group[@name='sale_header']//group[@name='partner_details']//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//group[@name='sale_header']//group[@name='partner_details']//field[@name='partner_id']" position="after">
+                <field name="customer_company" string="公司" options='{"no_create": True, "no_create_edit": True}'/>
+                <field name="customer_contact_person" string="聯絡人" context="{'contact_person': True}" options='{"no_create": True, "no_create_edit": True, "always_reload": True}'/>
+                <field name="customer_street" string="地址"/>
+                <field name="customer_city" string="城市"/>
+                <field name="customer_phone" string="電話" readonly="1" force_save="1"/>
+                <field name="customer_email" string="email" readonly="1" force_save="1"/>
+            </xpath>
+            
+            <!-- path: sale/views/sale_views.xml line:699 -->
+            <xpath expr="//page[@name='customer_signature']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- path: sale/views/sale_views.xml line:661-698 -->
+            <xpath expr="//page[@name='other_information']//group//group[@name='sales_person']//field[@name='require_signature']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group//group[@name='sales_person']//field[@name='require_payment']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group//group[@name='sales_person']//field[@name='reference']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group//group[@name='sales_person']//field[@name='client_order_ref']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+                <xpath expr="//page[@name='other_information']//group//group[@name='sales_person']//field[@name='tag_ids']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group//group[@name='sale_info']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='other_information']//group//group[@name='sale_shipping']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>   
+            <xpath expr="//page[@name='other_information']//group//group[@name='sale_reporting']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>   
+
+            <!-- 隱藏Optional Products page -->
+            <!-- path: sale_management/views/sale_order_views.xml line:10 -->
+            <xpath expr="//page[2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- 新增料號欄位 -->
+            <xpath expr="//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='product_id']" position="before">
+                <field name='sale_default_code' string='料號'/>
+            </xpath>  
+
+            <!-- 新增項次 -->
+            <xpath expr="//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='sale_default_code']" position="before">
+                <field name='sequence_number' string='項次'/>
+            </xpath>
+
+            <!-- 新增成本、成本小計欄位 -->
+            <xpath expr="//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='product_uom']" position="after">
+                <field name='standard_price' string='成本' readonly="0"/>
+                <field name='standard_price_subtotal' string='成本小計' readonly="1"/>
+            </xpath>  
+
+            <!-- 新增牌價、折扣價欄位 -->
+            <!-- 報價明細新增折扣%數、折扣試算結果 -->
+            <xpath expr="//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='price_unit']" position="before">
+                <field name='line_discount_flag' readonly="1" invisible="1"/>
+                <field name='suggested_price' string='牌價' attrs="{'readonly': [('line_discount_flag', '!=', True)]}"/>
+                <field name='discount_percentage' string='折扣%數' widget="percentage" attrs="{'readonly': [('line_discount_flag', '!=', True)]}"/>
+                <field name='discount_compute' string='折扣試算結果' attrs="{'readonly': [('line_discount_flag', '!=', True)]}"/>
+                <field name='discount_price' string='折扣價' attrs="{'readonly': [('line_discount_flag', '!=', True)]}"/>
+            </xpath>   
+
+            <!-- 新增備註欄位(20221109-ert) -->
+            <xpath expr="//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='price_total']" position="after">
+                <field name='order_notification' string='備註'/>
+            </xpath>
+
+            <!-- 覆寫單價xml line:410-->
+            <xpath expr="//page[@name='order_lines']//field[@name='order_line']//tree//field[@name='price_unit']" position="attributes">
+                <attribute name="attrs">{'readonly': [('line_discount_flag', '=', True)]}</attribute>
+            </xpath>
+            <!-- 新增幣別、新增稅金、是否啟用折扣價欄位(1109新增) -->
+            <xpath expr="//form//sheet//group[@name='sale_header']" position="inside">
+                <group name='currency_group'>
+                    <field name='currency_id' readonly="0"/>
+                    <field name='show_tax_percent' string="稅金" readonly="1"/>
+                    <field name='discount_flag' string="是否啟用折扣價"/>
+                </group>
+            </xpath>
+
+            <!-- 新增毛利率、總成本 -->
+            <xpath expr="//group[@name='note_group']//group[@name='sale_total']" position="after">
+                <group name='gp_cost'>
+                    <field name='cost_amount' readonly="1"/>
+                    <field name='gross_profit_margin' readonly="1"/>
+                </group>
+            </xpath>
+
+            <!-- 新增優惠總計 sale_views line651 -->
+            <xpath expr="//form//sheet//notebook//page[@name='order_lines']//group[@name='note_group']//group[@name='sale_total']//field[@name='amount_tax']" position="before">
+                <field name='discount_total' string="優惠總計(未稅)" style="min-width:100px;"/>
+            </xpath>
+
+            <!-- 隱藏「截止日期」 line325 -->
+            <xpath expr="//form//sheet//group[@name='sale_header']//group[@name='order_details']//field[@name='validity_date']" position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </xpath>
+
+            <!-- 新增報價日期在原截止日期後 line325 -->
+            <xpath expr="//form//sheet//group[@name='sale_header']//group[@name='order_details']//field[@name='validity_date']" position="after">
+                <field name='quote_date' widget='date'/>
+            </xpath>
+
+            <!-- 新增 css 樣板至 sale addon 的 view_order_form view -->
+            <!-- <xpath expr="//form//div" position="after">
+                <link rel="stylesheet" type="text/css" href="/iot_sale_order/static/src/css/sale_view.css/"/>
+            </xpath> -->
+        </field>
+    </record>
+
+    <!-- 修改 purchase 頁面 -->
+    <record id="iots_purchase_order_form" model="ir.ui.view">
+        <field name="name">iots.purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <!-- 隱藏Re-Send by Email, PrintRFQ 按鈕 -->
+             <!-- path: purchase/views/purchase_views.xml line:137-152 -->
+            <xpath expr="//form//header//button[@name='action_rfq_send'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[@name='action_rfq_send'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[@name='action_rfq_send'][3]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//form//header//button[@name='print_quotation'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[@name='print_quotation'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//form//header//button[@name='action_create_invoice'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[@name='action_create_invoice'][2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//form//header//button[@name='confirm_reminder_mail'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//form//header//button[@name='button_done'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//header//button[@name='button_unlock'][1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+             <!-- path: purchase/views/purchase_views.xml line:180-204 -->
+            <xpath expr="//form//sheet//group//group[2]//div[@name='reminder']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//group//group[2]//label[@for='date_planned']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//group//group[2]//div[@name='date_planned_div']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- path: purchase/views/purchase_views.xml line:364 -->
+            <xpath expr="//page[@name='purchase_delivery_invoice']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+             <!-- path: purchase/views/purchase_views.xml line:236 -->
+            <xpath expr="//page[@name='products']//field[@name='order_line']//tree//field[@name='date_planned']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> 
+
+            <!-- 新增供應商產品名稱、料號欄位 -->
+            <!-- path: purchase/views/purchase_views.xml line:235 -->
+            <xpath expr="//page[@name='products']//field[@name='order_line']//tree//field[@name='name']" position="after">
+                <field name="vendor_product_name" invisible="1" readonly="0"/>
+                <field name="vendor_product_code" invisible="0" readonly="0"/>
+            </xpath>
+
+            <!-- 供應商欄位只顯示供應商 -->
+            <!-- path: purchase/views/purchase_views.xml line:173 -->
+            <xpath expr="//form//sheet//group//field[@name='partner_id']" position="attributes">
+                <attribute name="domain">[('supplier_rank', '!=', 0)]</attribute>
+                <attribute name="options">{"no_create": True, "no_create_edit": True}</attribute>
+            </xpath>
+
+            <!-- 修改截止日期的顯示(只有年月日) -->
+            <!-- path: purchase/views/purchase_views.xml -->
+            <xpath expr="//form//sheet//group//field[@name='date_order']" position="attributes">
+                <attribute name="widget">date</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 修改 客戶頁面 -->
+    <record id="iots_customer_form" model="ir.ui.view">
+        <field name="name">iots.customer.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- path: odoo/addons/base/views/res_partner_views.xml line:231-354 -->
+            <xpath expr="//page[@name='sales_purchases']//group[2]"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+             <xpath expr="//page[@name='sales_purchases']//group[3]"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>        
+             <xpath expr="//page[@name='sales_purchases']//group[4]"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>                
+            <xpath expr="//page[@name='internal_notes']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> 
+            <xpath expr="//page[3]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- 隱藏地址street2，state，修改提示內容 -->
+            <!-- path: odoo/addons/base/views/res_partner_views.xml line:192-195 -->
+            <xpath expr="//form//sheet//group//group//div//field[@name='street2']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//group//group//div//field[@name='state_id']"  position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//group//group//div//field[@name='street']"  position="attributes">
+                <attribute name="placeholder">e.g. 大安區敦化南路二段97號26樓</attribute>
+            </xpath>
+            <xpath expr="//form//sheet//group//group//div//field[@name='city']"  position="attributes">
+                <attribute name="placeholder">e.g. 台北市</attribute>
+            </xpath>
+        </field>        
+    </record>
+</odoo>

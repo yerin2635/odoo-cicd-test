@@ -1,0 +1,60 @@
+# 第一行：定義 addon；第二行：「field_description」以前都是固定的，addon_name + . + field_ + model_name(.換成_) + __ + field_name
+# 第三行：英文 string；第四行：中文
+# 覆蓋.po：--i18n-overwrite
+
+#. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_purchase_order_line__vendor_product_code
+msgid "Vendor Product Code"
+msgstr "供應商產品料號"
+
+#. module: base_import
+#. openerp-web
+#: code:addons/base_import/static/src/xml/base_import.xml:0
+#, python-format
+msgid "Import records"
+msgstr "批次匯入資料"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__amount_untaxed
+msgid "Untaxed Amount"
+msgstr "合計(未稅)"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Add a section"
+msgstr "商品分類註記"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Add a note"
+msgstr "分頁註記"
+
+#. module: sale
+#: model:ir.actions.report,name:iot_sale_order.iot_Quotation_report
+msgid "IOTs Quotation (GPM must > 15%)"
+msgstr "IOTs報價單格式 (毛利不能低於15%)"
+
+#. module: sale
+#: model:ir.actions.report,name:iot_sale_order.iot_Quotation_report_for_manager
+msgid "IOTs Quotation"
+msgstr "IOTs報價單格式"
+
+#. module: sale
+#: model:ir.actions.report,name:iot_sale_order.iot_Quotation_report_FET
+msgid "IOTs Quotation With Suggested Price (GPM must > 15%)"
+msgstr "IoTs報價單牌價格式 (毛利不能低於15%)"
+
+#. module: sale
+#: model:ir.actions.report,name:iot_sale_order.iot_Quotation_report_FET_for_manager
+msgid "IOTs Quotation With Suggested Price"
+msgstr "IoTs報價單牌價格式"
+
+#. module: base
+#: code:addons/base/models/ir_qweb_fields.py:0
+#: model:ir.model.fields,field_description:base.field_res_partner__mobile
+#: model:ir.model.fields,field_description:base.field_res_users__mobile
+#: model:ir.module.module,shortdesc:base.module_web_mobile
+#: model_terms:ir.ui.view,arch_db:base.contact
+#, python-format
+msgid "Mobile"
+msgstr "手機"

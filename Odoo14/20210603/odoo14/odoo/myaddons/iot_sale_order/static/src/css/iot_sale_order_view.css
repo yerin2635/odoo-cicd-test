@@ -1,0 +1,22 @@
+/* 設定預定開立發票通知單欄位寬度，並排除順序欄與刪除欄 */
+[name=sales_invoice_rel]>.o_list_view>.table-responsive>table>thead>tr>th:not(.o_handle_cell):not(.o_list_record_remove_header) {
+    width:100px !important;
+}
+
+/* 設定業績欄位寬度，並排除順序欄、刪除欄與指定欄位 */
+[name=sales_performance_rel]>.o_list_view>.table-responsive>table>thead>tr>th:not([data-name=currency_total]):not([data-name=deal_total]):not([data-name=equivalent_performance]) {
+    width:100px !important;
+}
+
+/* 針對指定欄位設定寬度 */
+[data-name=currency_total] {
+    width:120px !important;
+}
+
+[data-name=deal_total] {
+    width:120px !important;
+}
+
+[data-name=equivalent_performance] {
+    width:120px !important;
+}

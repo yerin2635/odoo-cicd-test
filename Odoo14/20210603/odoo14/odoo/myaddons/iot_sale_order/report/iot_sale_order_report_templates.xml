@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <!-- <t t-call="web.external_layout"> -->
+                <div id="活頁簿1_31515" align="center">
+                    <table border="1" cellpadding="0" cellspacing="0" width="1280" style='border-collapse:separate;table-layout:fixed;width:960pt'>
+                        <col width="64" span="9" style='width:48pt'>
+                            <col width="64" style='width:48pt'>
+                                <col width="64" span="10" style='width:48pt'>
+
+                                    <tr height="49" style="height:36.6pt">
+                                        <td colspan="20" height="49" width="1280" style='height:36.6pt;width:960pt'>
+                                            <h1 align="center" valign="center">
+                                                    物聯網銷貨清單
+                                            </h1>
+                                        </td>
+                                    </tr>
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="3" height="22" style='height:16.2pt' align="center" valign="center">填表日期：</td>
+                                        <td colspan="10">
+                                            <span t-field="o.create_date" t-options='{"format": "yyyy/MM/dd"}'></span>
+                                        </td>
+                                        <td colspan="3">工令號：</td>
+                                        <td colspan="4">
+                                            <span t-field="o.work_order_number" />
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="4" height="22" style='height:16.2pt' align="justify">
+                                            國名/客戶/案名
+                                        </td>
+                                        <td colspan="16">
+                                            <span t-field="o.customer_country"></span>
+                                            \
+                                            <span t-field="o.customer_name"></span>
+                                            \
+                                            <span t-field="o.project_name"></span>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="4" height="22" style='height:16.2pt'>客戶編號</td>
+                                        <td colspan="5">
+                                            <span t-field="o.customer_number"></span>
+                                        </td>
+                                        <td colspan="2" align="justify">簽約 / 開工日</td>
+                                        <td colspan="2" align="center" valign="center">
+                                            <span t-field="o.signing_date" t-options='{"format": "yyyy/MM/dd"}'></span>
+                                        </td>
+                                        <td colspan="3" align="justify">計畫主持人</td>
+                                        <td colspan="4" style=''>
+                                            <span t-field="o.program_host"></span>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="4" height="22" style='height:16.2pt' align="justify">業務代表</td>
+                                        <td colspan="5">
+                                            <span t-field="o.business_representative"></span>
+                                        </td>
+                                        <td colspan="2" align="justify">預定完工日</td>
+                                        <td colspan="2" align="center" valign="center">
+                                            <span t-field="o.completion_day" t-options='{"format": "yyyy/MM/dd"}'></span>
+                                        </td>
+                                        <td colspan="3" align="justify">員工編號</td>
+                                        <td colspan="4" style=''>
+                                            <span t-field="o.program_host_id"></span>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td colspan="4" height="22" style='height:16.8pt' align="justify">業務員編號</td>
+                                        <td colspan="5">
+                                            <span t-field="o.business_representative_id"></span>
+                                        </td>
+                                        <td colspan="2" align="justify">業務電話分機</td>
+                                        <td colspan="2" align="center" valign="center">
+                                            <span t-field="o.business_representative_phone" />
+                                        </td>
+                                        <td colspan="3" align="justify">簽約當日即期買匯</td>
+                                        <td colspan="4">
+                                            <span t-field="o.spot_foreign_exchange"></span>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td rowspan="4" height="88" style='border-b1ottom:2.0pt double black;height:66.6pt;' align="center" valign="center">業績</td>
+                                        <td colspan="3" align="center" valign="center">業務代表</td>
+                                        <td colspan="2" align="center" valign="center">員工編號</td>
+                                        <td align="center" valign="center">類別</td>
+                                        <td colspan="2" align="center" valign="center">幣別</td>
+                                        <td colspan="2" align="center" valign="center">原幣成交金額</td>
+                                        <td colspan="2" align="center" valign="center">成交金額(NT$)</td>
+                                        <td colspan="3" align="center" valign="center">等量業績(NT$)</td>
+                                        <td colspan="2" align="center" valign="center">套數</td>
+                                        <td align="center" valign="center">註記</td>
+                                        <td align="center" valign="center">部門</td>
+                                    </tr>
+
+                                    <t t-foreach="o.sales_performance_rel" t-as="sale">
+                                        <tr height="22" style='height:16.2pt'>
+                                            <td colspan="3" height="22" style='height:16.2pt;' align="center" valign="center">
+                                                <span t-field="sale.user_id" />
+                                            </td>
+                                            <td colspan="2" align="center" valign="center">
+                                                <span t-field="sale.sales_serial_number" />
+                                            </td>
+                                            <td>
+                                                <span t-field="sale.category" />
+                                            </td>
+                                            <td colspan="2" align="center" valign="center">
+                                                <span t-field="sale.currency_id" />
+                                            </td>
+                                            <td colspan="2" align="center" valign="center">
+                                                <span t-field="sale.currency_total" t-options='{"widget": "int"}' />
+                                            </td>
+                                            <td colspan="2" align="center" valign="center">
+                                                <span t-field="sale.deal_total" t-options='{"widget": "int"}' />
+                                            </td>
+                                            <td colspan="3" align="center" valign="center">
+                                                <span t-field="sale.equivalent_performance" t-options='{"widget": "int"}' />
+                                            </td>
+                                            <td colspan="2" align="center" valign="center">
+                                                <span t-field="sale.pairs" />
+                                            </td>
+                                            <td align="center" valign="center">
+                                                <span t-field="sale.comment" />
+                                            </td>
+                                            <td align="center" valign="center">
+                                                <span t-field="sale.department" />
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </t>
+
+                                    <t t-set="business_order_total" t-value="0" />
+                                    <t t-foreach="o.sales_performance_rel" t-as="sale">
+                                        <t t-set="business_order_total" t-value="business_order_total+sale.currency_total" />
+                                    </t>
+
+                                    <t t-set="business_deal_total" t-value="0" />
+                                    <t t-foreach="o.sales_performance_rel" t-as="sale">
+                                        <t t-set="business_deal_total" t-value="business_deal_total+sale.deal_total" />
+                                    </t>
+
+                                    <t t-set="business_equivalent_performance_total" t-value="0" />
+                                    <t t-foreach="o.sales_performance_rel" t-as="sale">
+                                        <t t-set="business_equivalent_performance_total" t-value="business_equivalent_performance_total+sale.equivalent_performance" />
+                                    </t>
+
+                                    <t t-set="business_pairs_total" t-value="0" />
+                                    <t t-foreach="o.sales_performance_rel" t-as="sale">
+                                        <t t-set="business_pairs_total" t-value="business_pairs_total+sale.pairs" />
+                                    </t>
+
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td colspan="8" height="22" style='height:16.8pt;' align="right">
+                                                未稅合計</td>
+                                        <td colspan="2" align="center" valign="center">
+                                            <t t-esc="business_order_total" />
+                                        </td>
+                                        <td colspan="2" align="center" valign="center">
+                                            <t t-esc="business_deal_total" />
+                                        </td>
+                                        <td colspan="3" align="center" valign="center">
+                                            <t t-esc="business_equivalent_performance_total" />
+                                        </td>
+                                        <td colspan="2" align="center" valign="center">
+                                            <t t-esc="business_pairs_total" />
+                                        </td>
+                                        <td align="center" valign="center"></td>
+                                        <td align="center" valign="center"></td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td colspan="20" height="22" style=';height:16.8pt'>預估成本明細(等量業績=毛利*5倍)</td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="3" height="22" style='height:16.2pt' align="center" valign="center">材料</td>
+                                        <td colspan="3" align="center" valign="center">人工</td>
+                                        <td colspan="4" align="center" valign="center">製造費用</td>
+                                        <td colspan="1" align="center" valign="center">成本合計</td>
+                                        <td colspan="2" align="center" valign="center">預估毛利</td>
+                                        <td colspan="3" align="center" valign="center">預估毛利率</td>
+                                        <td colspan="4"></td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="3" height="22" style='height:16.2pt'></td>
+                                        <td colspan="3"></td>
+                                        <td colspan="4"></td>
+                                        <td></td>
+                                        <td colspan="2"></td>
+                                        <td colspan="3"></td>
+                                        <td colspan="4"></td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td height="22" colspan="2" style='height:16.2pt'>供應商：</td>
+                                        <td colspan="7"></td>
+                                        <td colspan="2">轉單合約金額：</td>
+                                        <td style=''></td>
+                                        <td style=''>元</td>
+                                        <td colspan="2">自購金額：</td>
+                                        <td colspan="4"></td>
+                                        <td style=''>元</td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="20" height="22" style=';height:16.2pt'></td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td colspan="8" height="22" style='height:16.8pt'>
+                                            稅別：□ 0.零稅
+                                            <font>■</font>
+                                            <font> 1.應稅</font>
+                                        </td>
+                                        <td colspan="12" style=''>
+                                                預定開立發票通知單
+                                            </td>
+                                    </tr>
+
+                                    <thead style="display: table-row-group">
+                                        <tr height="43" style='height:32.4pt'>
+                                            <td height="43" style='height:32.4pt;width:24pt' align="center" valign="center">期別</td>
+                                            <td colspan="2" style='width:60pt' align="center" valign="center">發票日期</td>
+                                            <td style='width:12pt' align="center" valign="center">付款條件</td>
+                                            <td style='width:12pt' align="center" valign="center">付款時點</td>
+                                            <td style='width:12pt' align="center" valign="center">付款天數</td>
+                                            <td style='width:12pt' align="center" valign="center">票期天數</td>
+                                            <td style='width:12pt' align="center" valign="center">付款方式</td>
+                                            <td style='width:12pt' align="center" valign="center">項次</td>
+                                            <td style='width:12pt' align="center" valign="center">銷貨項次</td>
+                                            <td colspan="3" width="192" style='width:144pt' align="center" valign="center">銷貨內容</td>
+                                            <td style='width:12pt' align="center" valign="center">數量</td>
+                                            <td width="128" style='width:96pt' align="center" valign="center">單價</td>
+                                            <td style='width:15pt' align="center" valign="center">幣別</td>
+                                            <td colspan="2" width="128" style='width:96pt' align="center" valign="center">原幣金額</td>
+                                            <td colspan="3" width="128" style=';width:106pt' align="center" valign="center">台幣金額</td>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="sale_tbody">
+                                        <t t-foreach="o" t-as="o">
+                                            <t t-foreach="o.sales_invoice_rel" t-as="invoice">
+                                                <t t-if="o in invoice.invoice_iot_rel">
+
+                                                    <tr>
+                                                        <td height="43" style='height:32.4pt;width:24pt' align="center" valign="center"></td>
+                                                        <td colspan="2" style='width:60pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <span t-field="invoice.invoice_date" t-options='{"format": "yyyy/MM/dd"}' />
+                                                            </t>
+                                                        </td>
+                                                        <td style='width:12pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <span t-field="invoice.payment_method" />
+                                                            </t>
+                                                        </td>
+                                                        <td style='width:12pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <span t-field="invoice.payment_times" />
+                                                            </t>
+                                                        </td>
+                                                        <td style='width:12pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <span t-field="invoice.payment_method.payment_days" />
+                                                            </t>
+                                                        </td>
+                                                        <td style='width:12pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <span t-field="invoice.payment_method.ticket_days" />
+                                                            </t>
+                                                        </td>
+                                                        <td style='width:12pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <span t-field="invoice.payment_terms" />
+                                                            </t>
+                                                        </td>
+                                                        <td style='width:12pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <t t-esc="invoice.serial_number" />
+                                                            </t>
+                                                        </td>
+                                                        <td style='width:12pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <t t-esc="invoice.sale_serial_number" />
+                                                            </t>
+                                                        </td>
+                                                        <td name="td_name" colspan="3" width="192" style='width:144pt' align="center" valign="center">
+                                                            <t t-esc="invoice.sale_item" />
+                                                        </td>
+                                                        <td name="td_quantity" style='width:12pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <t t-esc="invoice.sale_item_amount" />
+                                                            </t>
+                                                        </td>
+                                                        <td name="td_priceunit" width="128" style='width:96pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <t t-esc="invoice.sale_item_single_price" />
+                                                            </t>
+                                                        </td>
+                                                        <td style='width:15pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <t t-esc="invoice.sale_item_currency.name" />
+                                                            </t>
+                                                        </td>
+                                                        <td colspan="2" width="128" style='width:96pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <span t-field="invoice.sale_item_single_price_origin" t-options='{"widget": "int"}' />
+                                                            </t>
+                                                        </td>
+                                                        <td colspan="3" width="128" style='width:106pt' align="center" valign="center">
+                                                            <t t-if="True != invoice.po_number">
+                                                                <span t-field="invoice.sale_item_single_price_twd" t-options='{"widget": "int"}' />
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                            <tr>
+                                                <td colspan="22" align="center" valign="center">
+                                                    <!-- <t t-esc="order.name" /> 這裡是可以加 -->
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+
+                                    <t t-set="invoice_origin_total" t-value="0" />
+                                    <t t-set="invoice_twd_total" t-value="0" />
+                                    <t t-foreach="o" t-as="o">
+                                        <t t-foreach="o.sales_invoice_rel" t-as="invoice">
+                                            <t t-if="o in invoice.invoice_iot_rel">
+                                                <t t-set="invoice_origin_total" t-value="invoice_origin_total+invoice.sale_item_single_price_origin" />
+                                                <t t-set="invoice_twd_total" t-value="invoice_twd_total+invoice.sale_item_single_price_twd" />
+                                            </t>
+                                        </t>
+                                    </t>
+
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td colspan="11" height="22" style='height:16.8pt'>
+                                                付款時點：1.簽約 &#160; 2.交貨 &#160; 3.驗收 &#160; 4.分期…
+                                            </td>
+                                        <td colspan="5" rowspan="2" align="right">未 &#160; 稅 &#160; 合 &#160; 計</td>
+                                        <td colspan="2" rowspan="2" align="center" valign="center">
+                                            <t t-esc="invoice_origin_total" />
+                                        </td>
+                                        <td colspan="2" rowspan="2" align="center" valign="center">
+                                            <t t-esc="invoice_twd_total" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="11" height="22" style='height:16.8pt'>
+                                                付款方式：1.現金 &#160; 2.票據 &#160; 3.現匯 &#160; 4.L/C…
+                                            </td>
+                                    </tr>
+
+                                    <tr height="44" style='height:33.0pt'>
+                                        <td colspan="1" height="44" width="128" style='height:33.0pt;width:96pt' align="center" valign="center">項次</td>
+                                        <td colspan="2" width="192" style='width:144pt' align="center" valign="center">料號</td>
+                                        <td colspan="7" width="448" style='width:336pt' align="center" valign="center">
+                                            <span style='mso-spacerun:yes'>型號/品名</span>
+                                        </td>
+                                        <td width="64" style='width:48pt' align="center" valign="center">單位</td>
+                                        <td width="64" style='width:48pt' align="center" valign="center">數量</td>
+                                        <td colspan="2" width="128" style='width:96pt' align="center" valign="center">單價</td>
+                                        <td colspan="2" width="128" style='width:96pt' align="center" valign="center">金額</td>
+                                        <td colspan="2" width="64" style='width:48pt' align="center" valign="center">待進口數量</td>
+                                        <td colspan="4" style='width:48pt' align="center" valign="center">預定交貨日</td>
+                                    </tr>
+
+                                    <tbody class="purchase_tbody">
+                                        <t t-set="purchase_count" t-value="1" />
+                                        <t t-set="current_subtotal" t-value="0" />
+                                        <t t-foreach="o.purchase_order_line_rel" t-as="line">
+                                            <t t-foreacg="o.sale_order_rel.account_move" t-as="account">
+                                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded" />
+                                                <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included" />
+                                                <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                                                    <t t-if="not line.display_type">
+
+                                                        <td colspan="1" height="44" width="128" style='height:33.0pt;width:96pt' align="center" valign="center">
+                                                            <t t-esc="purchase_count" />
+                                                        </td>
+                                                        <td colspan="2" width="192" style='width:144pt' align="center" valign="center">
+                                                            <span t-field="line.default_code" />
+                                                        </td>
+                                                        <td colspan="7" width="448" style='width:336pt'>
+                                                            <span style='mso-spacerun:yes'>
+                                                                <span t-field="line.purchase_product_name_modify" />
+                                                                <br></br>
+                                                                <span t-field="line.description_modify" />
+                                                            </span>
+                                                        </td>
+                                                        <td width="64" style='width:48pt' align="center" valign="center">
+                                                            <span t-field="line.product_uom_modify" />
+                                                        </td>
+                                                        <td width="64" style='width:48pt' align="center" valign="center">
+                                                            <span t-field="line.product_qty_modify" />
+                                                        </td>
+                                                        <td colspan="2" width="128" style='width:96pt' align="center" valign="center">
+                                                            <span t-field="line.price_unit_modify" />
+                                                        </td>
+                                                        <td colspan="2" width="128" style='width:96pt' align="center" valign="center">
+                                                            <span t-field="line.price_subtotal_modify" t-options='{"widget": "int"}' />
+                                                        </td>
+                                                        <td colspan="2" width="64" style='width:48pt' align="center" valign="center">
+                                                            <span t-field="line.partner_id" />
+                                                        </td>
+                                                        <td colspan="4" width="64" style='width:48pt' align="center" valign="center">
+                                                            <!-- <span t-field="line.date_planned" t-options='{"format": "yyyy/MM/dd"}' /> -->
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </t>
+                                            <t t-set="purchase_count" t-value="purchase_count + 1" />
+                                        </t>
+                                    </tbody>
+
+                                    <t t-set="purchase_total" t-value="0" />
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td colspan="12" align="right">未 &#160; 稅 &#160; 合 &#160; 計 </td>
+                                        <t t-foreach="o.purchase_order_line_rel" t-as="porder">
+                                            <t t-set="purchase_total" t-value="purchase_total+porder.price_subtotal_modify" />
+                                        </t>
+                                        <t t-set="GP_calculate" t-value="0" />
+                                        <t t-if="invoice_twd_total!=0">
+                                            <t t-set="GP_calculate" t-value="((invoice_twd_total-purchase_total)/invoice_twd_total)*100" />
+                                        </t>
+                                        <td colspan="6" style='width:48pt' align="center" valign="center">
+                                            <t t-esc="purchase_total" />
+                                        </td>
+                                        <td style='width:36pt'>GP : </td>
+                                        <td style='width:60pt' align="center" valign="center">
+                                            <t t-esc="GP_calculate" t-options='{"widget": "float", "precision": 2}' />
+                                            <span>%</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td rowspan="2" height="44" cstyle='height:33.0pt'>審核</td>
+                                        <td colspan="19">
+                                            附件：■ 訂購單
+                                            <span style='mso-spacerun:yes'></span>
+                                            □合約書
+                                            <span style='mso-spacerun:yes'></span>
+                                            □ 維修單
+                                            <span style='mso-spacerun:yes'></span>
+                                            □ 其他
+                                        </td>
+                                    </tr>
+
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="19" height="22" style='height:16.2pt'>
+                                            □ 品名規格明確
+                                            <span style='mso-spacerun:yes'></span>
+                                            □ 價格接受
+                                            <span style='mso-spacerun:yes'></span>
+                                            □ 付款條件接受
+                                            <span style='mso-spacerun:yes'></span>
+                                            □ 交貨期可行
+                                            <span style='mso-spacerun:yes'></span>
+                                            □ 保固維護逾期
+                                            <span style='mso-spacerun:yes'></span>
+                                            □罰則接受
+                                            <span style='mso-spacerun:yes'></span>
+                                            □ 責任接受
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="20" rowspan="3" height="66" width="1280" style=';border-bottom:2.0pt double black;height:49.2pt;width:960pt'>
+                                            <font>&#10045;</font>
+                                            <font>
+                                                以上資料請由業務代表填寫
+                                                <br>
+                                                    貨品請寄:
+                                                    <t t-esc="o.note" />
+                                                </br>
+                                            </font>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'></tr>
+                                    <tr height="22" style='height:16.8pt'></tr>
+
+                                    <tr height="22" style='height:16.8pt'>
+                                        <td colspan="3" height="22" align="center" valign="center">核准</td>
+                                        <td colspan="8" align="center" valign="center">營業處</td>
+                                        <td colspan="7" align="center" valign="center">事業處</td>
+                                        <td colspan="2" rowspan="2" align="center" valign="center">財務部</td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="3" height="22" style='height:16.2pt' align="center" valign="center">授權主管</td>
+                                        <td colspan="2" align="center" valign="center">事業主管</td>
+                                        <td colspan="2" align="center" valign="center">部門主管</td>
+                                        <td colspan="2" align="center" valign="center">業務代表</td>
+                                        <td colspan="2" align="center" valign="center">業務助理</td>
+                                        <td colspan="" align="center" valign="center">事業主管</td>
+                                        <td colspan="2" align="center" valign="center">部門主管</td>
+                                        <td colspan="2" align="center" valign="center">計畫主持人</td>
+                                        <td colspan="2" align="center" valign="center">部門助理</td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td colspan="3" rowspan="5" height="110" style='border-bottom:1.0pt solid black;height:81.6pt'></td>
+                                        <td colspan="2" rowspan="5" style='border-bottom:1.0pt solid black'></td>
+                                        <td colspan="2" rowspan="5" style='border-bottom:1.0pt solid black'></td>
+                                        <td colspan="2" rowspan="5" style='border-bottom:1.0pt solid black;text-align:center'>
+                                            <span t-field="o.business_representative"></span>
+                                        </td>
+                                        <td colspan="2" rowspan="5" style='border-bottom:1.0pt solid black'></td>
+                                        <td rowspan="5" style='border-bottom:1.0pt solid black'></td>
+                                        <td colspan="2" rowspan="5" style='border-bottom:1.0pt solid black'></td>
+                                        <td colspan="2" rowspan="5" style='border-bottom:1.0pt solid black'></td>
+                                        <td colspan="2" rowspan="5" style=';border-bottom:1.0pt solid black'></td>
+                                        <td colspan="2" rowspan="5" style=';border-bottom:1.0pt solid black'></td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'></tr>
+                                    <tr height="22" style='height:16.2pt'></tr>
+                                    <tr height="22" style='height:16.2pt'></tr>
+                                    <tr height="22" style='height:16.8pt'></tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td height="22" style='height:16.2pt'>註：</td>
+                                        <td colspan="19">
+                                            1.註記欄內：V表重複業績；
+                                            <font>★</font>
+                                            <font>表重大業績；T表部門間之轉移。</font>
+                                        </td>
+                                    </tr>
+
+                                    <tr height="22" style='page-break-before:always;height:16.2pt'>
+                                        <td height="22" style='height:16.2pt'></td>
+                                        <td colspan="19">2.核准之授權主管：1000萬 總經理,1000萬以上董事長。</td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td height="22" style='height:16.2pt'></td>
+                                        <td colspan="19">3.單據流程：營業處 事業處 營業處 核准 營業處(COPY)↓財務處「營業處。</td>
+                                    </tr>
+
+                                    <tr height="22" style='height:16.2pt'>
+                                        <td height="22" style='height:16.2pt'></td>
+                                        <td colspan="19">4.請附：合約或訂單</td>
+                                    </tr>
+
+                                    <tr height="0" style='display:none'>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                        <td width="64" style='width:48pt'></td>
+                                    </tr>
+                                </col>
+                            </col>
+                        </col>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <report id="iot_Order" model="iot.sale.order" string="iots銷貨訂單格式" report_type="qweb-pdf" name="iot_sale_order.order_report" file="iot_sale_order.order_report" print_report_name="'銷貨訂單 %s' % (object.name)" />
+
+</odoo>

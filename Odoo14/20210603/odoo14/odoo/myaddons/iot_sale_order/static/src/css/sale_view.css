@@ -1,0 +1,4 @@
+/* 設定報價單欄位寬度，並排除順序欄與刪除欄 */
+[name=order_line]>.o_list_view>.table-responsive>table>thead>tr>th:not(.o_handle_cell):not(.o_list_record_remove_header) {
+    width:100px !important;
+}
