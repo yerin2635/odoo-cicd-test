@@ -34,6 +34,7 @@ jobs:
               whoami
               echo "test connect GCP" > file.txt
       
+      
       # 執行單一命令
       # Runs a single command using the runners shell
       # - name: Run a one-line script
