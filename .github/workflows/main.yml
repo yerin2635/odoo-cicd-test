@@ -31,7 +31,8 @@ jobs:
       - name: docker install
         run: |
           ls
-          cd ~/Odoo14/20210603
+          cd ~/Odoo14
+          ls
           
           
 
