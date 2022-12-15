@@ -30,9 +30,8 @@ jobs:
 #       Runs a set of commands using the runners shell
       - name: docker install
         run: |
-          sudo apt-get install docker.io
-          sudo apt  install docker-compose
           ls
+          cd ~/odoo-cicd-test/Odoo14/20210603/docker-compose/odoo-db/ && sudo docker-compose up -d
 
 
 
