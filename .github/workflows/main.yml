@@ -31,7 +31,9 @@ jobs:
       - name: docker install
         run: |
           ls
-          cd ~/Odoo14/20210603/docker-compose/odoo-db/ && sudo docker-compose up -d
+          cd ~/Odoo14/20210603
+          
+          
 
 
 
