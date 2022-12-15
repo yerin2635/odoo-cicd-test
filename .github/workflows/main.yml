@@ -37,7 +37,10 @@ jobs:
       - name: python venv
         run: |
           cd python_venv/ && source odoo14_20210720/bin/activate
-          python3 --version
+          sudo apt-get install libxml2-dev libxslt1-dev libssl-dev build-essential libffi-dev python3-dev
+          pip install "setuptools==58.0.0"
+          pip install --upgrade pip
+          pip install -r ../requirements.txt --use-deprecated=legacy-resolver
           pip list
           cd
           
