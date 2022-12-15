@@ -20,18 +20,18 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
+      # 檢查儲存庫，這樣才可以訪問
       - uses: actions/checkout@v3
 
       - name: deploy to vm
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: whoami
-            echo "test connect GCP" > file.txt
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
+              echo "test connect GCP" > file.txt
       
       # 執行單一命令
       # Runs a single command using the runners shell
