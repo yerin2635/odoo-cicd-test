@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 # 控制你的流程何時啟動
 on:
@@ -20,16 +20,28 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # 檢查儲存庫，這樣才可以訪問
       - uses: actions/checkout@v3
 
+      - name: deploy to vm
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: whoami
+            echo "test connect GCP" > file.txt
+      
+      # 執行單一命令
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, test cd
+      # - name: Run a one-line script
+      #   run: echo Hello, test cd
 
+      # 執行一組命令
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      # - name: Run a multi-line script
+      #   run: |
+      #     echo Add other actions to build,
+      #     echo test, and deploy your project.
 
