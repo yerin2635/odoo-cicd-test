@@ -25,7 +25,11 @@ jobs:
     steps:
       # 檢查儲存庫，這樣才可以訪問
       - uses: actions/checkout@v3
-
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          
     # 執行一組命令
     # Runs a set of commands using the runners shell
       - name: docker ProgreSQL start up
