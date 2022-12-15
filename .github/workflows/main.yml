@@ -3,8 +3,8 @@ name: CI/CD
 # 控制你的流程何時啟動
 on:
   # 觸發條件設定為 pull "main" branch
-#   push:
-#     branches: [ main ]
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ "main" ]
 
@@ -26,6 +26,16 @@ jobs:
       # 檢查儲存庫，這樣才可以訪問
       - uses: actions/checkout@v3
 
+#       執行一組命令
+#       Runs a set of commands using the runners shell
+      - name: docker install
+        run: |
+          sudo apt-get install docker.io
+          sudo apt  install docker-compose
+          ls
+
+
+
       - name: deploy to vm
         uses: appleboy/ssh-action@master
         with:
@@ -34,8 +44,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-              whoami
-              echo "test connect GCP" > file.txt
+
       
       
       # 執行單一命令
