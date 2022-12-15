@@ -30,7 +30,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          script: |
+              whoami
               echo "test connect GCP" > file.txt
       
       # 執行單一命令
