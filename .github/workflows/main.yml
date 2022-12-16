@@ -69,6 +69,7 @@ jobs:
             
             
       - name: deploy to vm
+        timeout-minutes: 1
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
