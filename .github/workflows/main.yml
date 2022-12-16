@@ -3,8 +3,8 @@ name: CI/CD
 # 控制你的流程何時啟動
 on:
   # 觸發條件設定為 pull "main" branch
-#   push:
-#     branches: [ main ]
+  push:
+    branches: [ main ]
   pull_request:
     branches: [ "main" ]
 
@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         python-version: [3.6.9]
@@ -25,7 +25,32 @@ jobs:
     steps:
       # 檢查儲存庫，這樣才可以訪問
       - uses: actions/checkout@v3
-
+          
+    # 執行一組命令
+    # Runs a set of commands using the runners shell
+      - name: docker ProgreSQL start up
+        run: |
+          ls
+          cat /etc/os-release
+          cd Odoo14/20210603/docker-compose/odoo-db/ && sudo docker-compose up -d
+          cd
+          
+      - name: python venv
+        run: |
+          cd python_venv/ && source odoo14_20210720/bin/activate
+          sudo apt-get update
+          sudo apt-get install libxml2-dev libxslt1-dev libssl-dev build-essential libsasl2-dev libffi-dev libldap2-dev python3.6-dev python-dev
+          sudo apt-get install python3-setuptools
+          sudo python3 -m pip install --upgrade pip 
+          python3 -m pip install -r ../requirements.txt
+          pip list
+          cd
+          
+      - name: odoo server start up
+        run: |
+          cd Odoo14/20210603/odoo14/odoo && python3 odoo-bin -w odoo -r odoo -c ~/Odoo14/20210603/odoo14/odoo/config/odootest.conf
+          cd
+                 
       - name: deploy to vm
         uses: appleboy/ssh-action@master
         with:
@@ -34,8 +59,6 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-              whoami
-              echo "test connect GCP" > file.txt
       
       
       # 執行單一命令
@@ -49,4 +72,3 @@ jobs:
       #   run: |
       #     echo Add other actions to build,
       #     echo test, and deploy your project.
-
