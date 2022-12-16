@@ -49,8 +49,7 @@ jobs:
       - name: odoo server start up
         run: |
           cd Odoo14/20210603/odoo14/odoo && python3 odoo-bin -w odoo -r odoo -c ~/Odoo14/20210603/odoo14/odoo/config/odootest.conf
-          cd
-                 
+   
       - name: deploy to vm
         uses: appleboy/ssh-action@master
         with:
