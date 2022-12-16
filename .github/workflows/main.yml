@@ -78,7 +78,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ~/odoo-cicd-test/python_venv/ && source odoo14_20210720/bin/activate
-            cd ~/odoo-cicd-test/Odoo14/20210603/odoo14/odoo && nohup python3 odoo-bin -w odoo -r odoo -c ~/odoo-cicd-test/Odoo14/20210603/odoo14/odoo/config/odoo.conf > /dev/null 2>&1 &
+            cd ~/odoo-cicd-test/Odoo14/20210603/odoo14/odoo && nohup python3 odoo-bin -w odoo -r odoo -c ~/odoo-cicd-test/Odoo14/20210603/odoo14/odoo/config/odoo.conf > nohup.out 2> nohup.err < /dev/null &
 
       
       # 執行單一命令
