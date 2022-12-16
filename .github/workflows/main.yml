@@ -30,6 +30,8 @@ jobs:
     # Runs a set of commands using the runners shell
       - name: docker ProgreSQL start up
         run: |
+          
+          
           ls
           cat /etc/os-release
           cd Odoo14/20210603/docker-compose/odoo-db/ && sudo docker-compose up -d
