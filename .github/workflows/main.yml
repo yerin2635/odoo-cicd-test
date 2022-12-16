@@ -60,7 +60,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            killall python3
+            kill -9 $(ps aux | grep '[p]ython3 odoo-bin' | awk '{print$2}')
             cd odoo-cicd-test
             git fetch
             git pull
