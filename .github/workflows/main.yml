@@ -49,7 +49,6 @@ jobs:
       - name: odoo server start up
         run: |
           cd Odoo14/20210603/odoo14/odoo && nohup python3 odoo-bin -w odoo -r odoo -c /home/runner/work/odoo-cicd-test/odoo-cicd-test/Odoo14/20210603/odoo14/odoo/config/odootest.conf &
-        
           cd
                  
       - name: deploy to vm
@@ -60,6 +59,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+            
       
       
       # 執行單一命令
