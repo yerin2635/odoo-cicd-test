@@ -65,8 +65,6 @@ jobs:
             git fetch
             git pull
             cd ~/odoo-cicd-test/python_venv/ && source odoo14_20210720/bin/activate
-            cd ~/odoo-cicd-test/Odoo14/20210603/odoo14/odoo && nohup python3 odoo-bin -w odoo -r odoo -c ~/odoo-cicd-test/Odoo14/20210603/odoo14/odoo/config/odoo.conf &
-            
             ls
             whoami
       
