@@ -49,7 +49,7 @@ jobs:
       - name: odoo server start up
         run: |
           cd Odoo14/20210603/odoo14/odoo && nohup python3 odoo-bin -w odoo -r odoo -c /home/runner/work/odoo-cicd-test/odoo-cicd-test/Odoo14/20210603/odoo14/odoo/config/odootest.conf &
-          killall python3
+          kill $(ps aux | grep '[p]ython3 odoo-bin' | awk '{print$2}')
           cd
                  
       - name: deploy to vm
@@ -60,6 +60,13 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
+
+            pwd
+            ls
+            whoamiu
+
+            
+            
             
       
       
