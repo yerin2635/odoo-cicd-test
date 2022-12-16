@@ -60,15 +60,13 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            ls
             killall python3
             cd odoo-cicd-test
             git fetch
             git pull
-            ls
-            
             
       - name: deploy to vm
+        timeout-minutes: 1
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
