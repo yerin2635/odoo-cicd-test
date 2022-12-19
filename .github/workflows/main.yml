@@ -28,29 +28,29 @@ jobs:
           
     # 執行一組命令
     # Runs a set of commands using the runners shell
-      - name: docker ProgreSQL start up
-        run: |
-          ls
-          cat /etc/os-release
-          cd Odoo14/20210603/docker-compose/odoo-db/ && sudo docker-compose up -d
-          cd
+#       - name: docker ProgreSQL start up
+#         run: |
+#           ls
+#           cat /etc/os-release
+#           cd Odoo14/20210603/docker-compose/odoo-db/ && sudo docker-compose up -d
+#           cd
           
-      - name: python venv
-        run: |
-          cd python_venv/ && source odoo14_20210720/bin/activate
-          sudo apt-get update
-          sudo apt-get install libxml2-dev libxslt1-dev libssl-dev build-essential libsasl2-dev libffi-dev libldap2-dev python3.6-dev python-dev
-          sudo apt-get install python3-setuptools
-          sudo python3 -m pip install --upgrade pip 
-          python3 -m pip install -r ../requirements.txt
-          pip list
-          cd
+#       - name: python venv
+#         run: |
+#           cd python_venv/ && source odoo14_20210720/bin/activate
+#           sudo apt-get update
+#           sudo apt-get install libxml2-dev libxslt1-dev libssl-dev build-essential libsasl2-dev libffi-dev libldap2-dev python3.6-dev python-dev
+#           sudo apt-get install python3-setuptools
+#           sudo python3 -m pip install --upgrade pip 
+#           python3 -m pip install -r ../requirements.txt
+#           pip list
+#           cd
           
-      - name: odoo server start up
-        run: |
-          cd Odoo14/20210603/odoo14/odoo && nohup python3 odoo-bin -w odoo -r odoo -c /home/runner/work/odoo-cicd-test/odoo-cicd-test/Odoo14/20210603/odoo14/odoo/config/odootest.conf &
-          kill $(ps aux | grep '[p]ython3 odoo-bin' | awk '{print$2}')
-          cd
+#       - name: odoo server start up
+#         run: |
+#           cd Odoo14/20210603/odoo14/odoo && nohup python3 odoo-bin -w odoo -r odoo -c /home/runner/work/odoo-cicd-test/odoo-cicd-test/Odoo14/20210603/odoo14/odoo/config/odootest.conf &
+#           kill $(ps aux | grep '[p]ython3 odoo-bin' | awk '{print$2}')
+#           cd
                  
       - name: deploy to vm
         uses: appleboy/ssh-action@master
@@ -60,22 +60,12 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            killall python3
+            docker stop odoo-cicd-test_db_1 odoo-cicd-test_web_1
             cd odoo-cicd-test
             git fetch
             git pull
+            docker-compose up -d
             
-      - name: reboot the server
-        timeout-minutes: 5
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script: |
-            cd ~/odoo-cicd-test/python_venv/ && source odoo14_20210720/bin/activate
-            cd ~/odoo-cicd-test/Odoo14/20210603/odoo14/odoo && nohup python3 odoo-bin -w odoo -r odoo -c ~/odoo-cicd-test/Odoo14/20210603/odoo14/odoo/config/odoo.conf >> shipper.log 2>&1 & echo $! > process.pid
       
       # 執行單一命令
       # Runs a single command using the runners shell
