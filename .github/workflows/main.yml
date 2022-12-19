@@ -65,7 +65,7 @@ jobs:
             git fetch
             git pull
             
-      - name: deploy to vm
+      - name: reboot the server
         timeout-minutes: 5
         uses: appleboy/ssh-action@master
         with:
