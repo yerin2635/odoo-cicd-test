@@ -3,8 +3,8 @@ name: CI/CD
 # 控制你的流程何時啟動
 on:
   # 觸發條件設定為 pull "main" branch
-  push:
-    branches: [ main ]
+#   push:
+#     branches: [ main ]
   pull_request:
     branches: [ "main" ]
 
