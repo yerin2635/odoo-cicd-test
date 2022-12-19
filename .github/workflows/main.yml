@@ -29,6 +29,9 @@ jobs:
 #     執行一組命令
 #     Runs a set of commands using the runners shell
       - name: GitHub docker start up
+        with:
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
         run: |
             docker-compose up -d
             
