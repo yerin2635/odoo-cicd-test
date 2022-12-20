@@ -26,6 +26,14 @@ jobs:
       # 檢查儲存庫，這樣才可以訪問
       - uses: actions/checkout@v3
 
+      - name: Use GitHub cache(Cache backend API)
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: user/app:latest
+          cache-from: type=gha
+          cache-to: type=gha, mode=min
 
 #     執行一組命令
 #     Runs a set of commands using the runners shell
