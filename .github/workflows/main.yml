@@ -26,6 +26,11 @@ jobs:
       # 檢查儲存庫，這樣才可以訪問
       - uses: actions/checkout@v3
 
+      # 建立 buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # 使用 cache 儲存 image
       - name: Use GitHub cache(Cache backend API)
         uses: docker/build-push-action@v3
         with:
