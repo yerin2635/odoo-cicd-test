@@ -34,7 +34,7 @@ jobs:
             
 #       - name: GitHub odoo unit test
 #         run: |
-        
+
       - name: GCP deploy to vm
         uses: appleboy/ssh-action@master
         with:
