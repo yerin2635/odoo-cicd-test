@@ -4,7 +4,7 @@ name: CI/CD
 on:
   # 觸發條件設定為 pull "main" branch
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
