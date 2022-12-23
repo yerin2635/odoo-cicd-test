@@ -1,7 +1,11 @@
-version: '3.5'
+version: '3.8'
 services:
   web:
-    image: odoo:14.0
+    image: ert47896/odoo:14.0
+    build:
+      context: ./14.0
+      args:
+        progress: plain
     depends_on:
       - db
     ports:
